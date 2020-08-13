@@ -9,6 +9,7 @@ var (
 	TypeWav  = newType("wav", "audio/x-wav")
 	TypeAmr  = newType("amr", "audio/amr")
 	TypeAac  = newType("aac", "audio/aac")
+	TypeCaf  = newType("caf", "audio/x-caf")
 )
 
 var Audio = Map{
@@ -20,6 +21,7 @@ var Audio = Map{
 	TypeWav:  Wav,
 	TypeAmr:  Amr,
 	TypeAac:  Aac,
+	TypeCaf:  Caf,
 }
 
 func Midi(buf []byte) bool {
@@ -72,4 +74,10 @@ func Aac(buf []byte) bool {
 	return len(buf) > 1 &&
 		((buf[0] == 0xFF && buf[1] == 0xF1) ||
 			(buf[0] == 0xFF && buf[1] == 0xF9))
+}
+
+func Caf(buf []byte) bool {
+	return len(buf) > 3 &&
+		buf[0] == 0x63 && buf[1] == 0x61 &&
+		buf[2] == 0x66 && buf[3] == 0x66
 }
